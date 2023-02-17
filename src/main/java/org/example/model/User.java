@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@Repository
 public class User {
 
     @Id
@@ -24,7 +24,13 @@ public class User {
 
     private Long chatId;
 
+    @Transient
+    UserRepository userRepository;
 
+    User(UserRepository userRepository) {
+        Objects.requireNonNull(userRepository);
+        this.userRepository = userRepository;
+    }
 
     public User() {
     }
