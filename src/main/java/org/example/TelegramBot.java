@@ -1,6 +1,7 @@
 package org.example;
 
 import com.vdurmont.emoji.EmojiParser;
+import org.example.model.Expense;
 import org.example.response.HelpCommand;
 import org.example.config.BotConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -39,8 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Autowired
     UserRepository userRepository;
-
-
+    
     @Override
     public String getBotUsername() {
         return botConfig.getBotName();

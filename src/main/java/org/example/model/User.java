@@ -20,7 +20,6 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userid;
 
     private Long chatId;

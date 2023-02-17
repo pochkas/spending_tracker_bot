@@ -36,10 +36,7 @@ public class ExpensesBotApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        ExpenseService expenseService=new ExpenseServiceImpl(botConfig, new RestTemplate());
-//
-//        System.out.println(expenseService.getAll(UUID.randomUUID()));
-//        System.out.println(expenseService.getExpense(UUID.randomUUID(), 1L));
+
 
     }
 
