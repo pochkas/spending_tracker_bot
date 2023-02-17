@@ -20,17 +20,11 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userid;
 
     private Long chatId;
 
-    @Transient
-    UserRepository userRepository;
-
-    User(UserRepository userRepository) {
-        Objects.requireNonNull(userRepository);
-        this.userRepository = userRepository;
-    }
 
     public User() {
     }
