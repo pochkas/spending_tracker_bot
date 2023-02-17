@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Table(name = "users")
 @Getter
 @Setter
+@Repository
 public class User {
 
     @Id
@@ -22,9 +24,7 @@ public class User {
 
     private Long chatId;
 
-    @Autowired
-    @Transient
-    UserRepository userRepository;
+
 
     public User() {
     }
