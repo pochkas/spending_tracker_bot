@@ -20,10 +20,9 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID userid;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long chatId;
 
 

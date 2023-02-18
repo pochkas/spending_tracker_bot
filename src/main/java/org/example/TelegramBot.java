@@ -41,7 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Autowired
     UserRepository userRepository;
-    
+
     @Override
     public String getBotUsername() {
         return botConfig.getBotName();
@@ -72,20 +72,25 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
-
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText = update.getMessage().getText();
+
+            UUID userId;
             Long chatId = update.getMessage().getChatId();
-            UUID userId = userRepository.findByChatId(chatId).getUserid();
-            ExpenseServiceImpl expense = new ExpenseServiceImpl(botConfig, new RestTemplate());
+            String messageText = update.getMessage().getText();
+
+            Optional<UUID> optional = Optional.ofNullable(userRepository.findByChatId(chatId)).map(u -> u.getUserid());
+
+            if (!optional.isPresent()) {
+                UUID id = UUID.randomUUID();
+                userRepository.save(new User(id, chatId));
+                userId = id;
+            } else {
+                userId = optional.get();
+            }
 
 
             if (messageText.startsWith("/start")) {
 
-                if (userRepository.findByChatId(chatId) == null) {
-                    userRepository.save(new User(userId, chatId));
-                }
                 startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
 
 
@@ -94,7 +99,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 prepareAndSendMessage(chatId, new HelpCommand().getHELP());
             } else if (messageText.startsWith("/get_all")) {
 
-                prepareAndSendMessage(chatId, expense.getAll(userId).toString());
+                prepareAndSendMessage(chatId, expenseService.getAll(userId).toString());
             } else if (messageText.startsWith("/input") && messageText.length() > 11) {
 
                 log.info(messageText);
@@ -103,23 +108,23 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String category = array[1];
                 Double price = Double.valueOf(array[2]);
 
-                expense.addExpense(userId, category, price);
+                expenseService.addExpense(userId, category, price);
                 sendMessage(chatId, messageText + " - this expense was added.");
-
-
             } else if (messageText.equals("/get_by_category_and_month")) {
 
-                prepareAndSendMessage(chatId, expense.groupByCategoryAndMonth(userId).toString());
+                prepareAndSendMessage(chatId, expenseService.groupByCategoryAndMonth(userId).toString());
+
             } else if (messageText.startsWith("/get_by_category")) {
 
                 String[] array = parseMessage(messageText);
                 String category = array[1];
-                expense.findAllByCategory(userId, category);
-                prepareAndSendMessage(chatId, expense.findAllByCategory(userId, category).toString());
+                expenseService.findAllByCategory(userId, category);
+                prepareAndSendMessage(chatId, expenseService.findAllByCategory(userId, category).toString());
 
             } else if (messageText.startsWith("/group_by_category")) {
 
-                prepareAndSendMessage(chatId, expense.groupByCategory(userId).toString());
+                prepareAndSendMessage(chatId, expenseService.groupByCategory(userId).toString());
+
             } else {
 
                 prepareAndSendMessage(chatId, "Sorry, command was not recognized");
@@ -132,7 +137,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             long messageId = update.getCallbackQuery().getMessage().getMessageId();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
 
-
             if (callbackData.equals("write category and price")) {
 
                 String text = "write category and price, example: /input FOOD 150.50";
@@ -143,7 +147,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                 executeEditMessageText(text, chatId, messageId);
             } else if (callbackData.equals("/get_all")) {
                 String text = "/get_all";
-                // prepareAndSendMessage(chatId, expense.getAll(uuid).toString());
                 executeEditMessageText(text, chatId, messageId);
             } else if (callbackData.equals("/get_by_category_and_month")) {
                 String text = "/get_by_category_and_month";
@@ -152,7 +155,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String text = "/group_by_category";
                 executeEditMessageText(text, chatId, messageId);
             } else {
-
+                String text = "could not find this command";
+                executeEditMessageText(text, chatId, messageId);
             }
         }
 
@@ -212,13 +216,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         message.setReplyMarkup(inlineKeyboardMarkup);
 
         executeMessage(message);
-//        try {
-//            execute(new SendMessage(chatId.toString(), textToSend));
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//            log.error("Error occurred: " + e.getMessage());
-//        }
-
 
     }
 
@@ -231,7 +228,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            log.error("f" + e.getMessage());
+            log.error("Error" + e.getMessage());
         }
     }
 
@@ -274,11 +271,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         String[] array = textMessage.split(" ");
 
-//        if (array.length >= 3) {
         return array;
-//        } else {
-//            throw new ExpenseBotException("Not enough data or not correct data");
-//        }
+
     }
 
 
