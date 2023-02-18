@@ -57,11 +57,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         List<BotCommand> listofCommands = new ArrayList<>();
         listofCommands.add(new BotCommand("/start", "get a welcome message"));
         listofCommands.add(new BotCommand("/help", "help message"));
-        listofCommands.add(new BotCommand("/get_all", "get all expenses"));
-        listofCommands.add(new BotCommand("/input", "input your data"));
-        listofCommands.add(new BotCommand("/get_by_category", "get expenses by category, example /get_by_category FOOD"));
-        listofCommands.add(new BotCommand("/group_by_category", "group expenses by category"));
-        listofCommands.add(new BotCommand("/group_by_category_and_month", "group expenses by category and month"));
+        listofCommands.add(new BotCommand("/get_all", "get all expenses, example: /get_all"));
+        listofCommands.add(new BotCommand("/input", "input your data, example: /input FOOD"));
+        listofCommands.add(new BotCommand("/get_by_category", "get expenses by category, example: /get_by_category FOOD"));
+        listofCommands.add(new BotCommand("/group_by_category", "group expenses by category, example /group_by_category"));
+        listofCommands.add(new BotCommand("/group_by_category_and_month", "group expenses by category and month, example: /group_by_category_and_month "));
 
         try {
             this.execute(new SetMyCommands(listofCommands, new BotCommandScopeDefault(), null));
