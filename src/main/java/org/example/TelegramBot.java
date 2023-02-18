@@ -59,9 +59,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         listofCommands.add(new BotCommand("/help", "help message"));
         listofCommands.add(new BotCommand("/get_all", "get all expenses"));
         listofCommands.add(new BotCommand("/input", "input your data"));
-        listofCommands.add(new BotCommand("/get_by_category", "get expenses by category"));
+        listofCommands.add(new BotCommand("/get_by_category", "get expenses by category, example /get_by_category FOOD"));
         listofCommands.add(new BotCommand("/group_by_category", "group expenses by category"));
-        listofCommands.add(new BotCommand("/get_by_category_and_month", "get expenses by category and month"));
+        listofCommands.add(new BotCommand("/group_by_category_and_month", "group expenses by category and month"));
 
         try {
             this.execute(new SetMyCommands(listofCommands, new BotCommandScopeDefault(), null));
@@ -110,7 +110,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                 expenseService.addExpense(userId, category, price);
                 sendMessage(chatId, messageText + " - this expense was added.");
-            } else if (messageText.equals("/get_by_category_and_month")) {
+            } else if (messageText.equals("/group_by_category_and_month")) {
 
                 prepareAndSendMessage(chatId, expenseService.groupByCategoryAndMonth(userId).toString());
 
@@ -148,8 +148,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             } else if (callbackData.equals("/get_all")) {
                 String text = "/get_all";
                 executeEditMessageText(text, chatId, messageId);
-            } else if (callbackData.equals("/get_by_category_and_month")) {
-                String text = "/get_by_category_and_month";
+            } else if (callbackData.equals("/group_by_category_and_month")) {
+                String text = "/group_by_category_and_month";
                 executeEditMessageText(text, chatId, messageId);
             } else if (callbackData.equals("/group_by_category")) {
                 String text = "/group_by_category";
@@ -192,7 +192,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         getByCategory.setCallbackData("write a category");
 
         getByCategoryAndMonth.setText("expenses by category and month");
-        getByCategoryAndMonth.setCallbackData("/get_by_category_and_month");
+        getByCategoryAndMonth.setCallbackData("/group_by_category_and_month");
 
         groupByCategory.setText("group expenses by category");
         groupByCategory.setCallbackData("/group_by_category");
