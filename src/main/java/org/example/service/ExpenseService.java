@@ -6,6 +6,7 @@ import org.example.response.GroupByCategoryAndMonth;
 import org.example.model.Expense;
 import org.example.model.ExpenseResponse;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public interface ExpenseService {
 
     public List<Expense> getAll(UUID userid);
 
-    public void addExpense(UUID userid, String category, Double price);
+    public void addExpense(UUID userid, String category, Double price, LocalDateTime date);
 
     public ExpenseResponse update(UUID userid, Long id);
 

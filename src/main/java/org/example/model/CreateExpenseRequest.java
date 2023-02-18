@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -15,9 +17,12 @@ public class CreateExpenseRequest {
     String category;
     Double price;
 
-    public CreateExpenseRequest(String category, Double price) {
+    LocalDateTime date;
+
+    public CreateExpenseRequest(String category, Double price, LocalDateTime date) {
         this.category = category;
         this.price = price;
+        this.date=date;
 
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -60,9 +61,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public void addExpense(UUID userid, String category, Double price) {
+    public void addExpense(UUID userid, String category, Double price, LocalDateTime date) {
 
-        CreateExpenseRequest request = new CreateExpenseRequest(category, price);
+        CreateExpenseRequest request = new CreateExpenseRequest(category, price, date);
 
         String jsonStr = restTemplate.postForObject(botConfig.getServerUrl() + "/expenses/" + userid, request, String.class);
 

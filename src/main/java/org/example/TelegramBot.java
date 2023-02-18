@@ -23,6 +23,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -107,8 +108,9 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String[] array = parseMessage(messageText);
                 String category = array[1];
                 Double price = Double.valueOf(array[2]);
+                LocalDateTime date=LocalDateTime.now();
 
-                expenseService.addExpense(userId, category, price);
+                expenseService.addExpense(userId, category, price, date);
                 sendMessage(chatId, messageText + " - this expense was added.");
             } else if (messageText.equals("/group_by_category_and_month")) {
 
