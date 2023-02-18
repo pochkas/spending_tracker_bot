@@ -79,12 +79,7 @@ public class Expense {
 
     @Override
     public String toString() {
-        return "Expense{" +
-                ", id=" + id +
-                ", category='" + category + '\'' +
-                ", price=" + price +
-                ", date=" + date +
-                '}';
+        return "id=" + id +", category=" + category +", price=" + price +", date=" + date +"\n\n";
     }
 
     @Override
