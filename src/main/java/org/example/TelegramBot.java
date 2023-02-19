@@ -106,6 +106,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 log.info(messageText);
 
                 String[] array = parseMessage(messageText);
+                if(array.length<3){ prepareAndSendMessage(chatId, "Sorry, command was not recognized, check your command, example: /input OTHER 200.70"); return;}
                 String category = array[1];
                 Double price = Double.valueOf(array[2]);
                 LocalDateTime date=LocalDateTime.now();
@@ -119,6 +120,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             } else if (messageText.startsWith("/get_by_category")) {
 
                 String[] array = parseMessage(messageText);
+                if(array.length<2){ prepareAndSendMessage(chatId, "Sorry, command was not recognized, check your command, example: /get_by_category FOOD"); return;}
                 String category = array[1];
                 expenseService.findAllByCategory(userId, category);
                 prepareAndSendMessage(chatId, expenseService.findAllByCategory(userId, category).toString());

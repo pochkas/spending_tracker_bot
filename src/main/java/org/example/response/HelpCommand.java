@@ -19,7 +19,9 @@ public class HelpCommand {
             "\n" +
             "Type /get_all to see all expenses.\n" +
             "\n" +
-            "Type /get_by_Category to see all expenses in this category.\n" +
+            "Type /get_by_Category CATEGORY to see all expenses in this category.\n" +
             "\n" +
-            "Type /get_by_Category_and_Month to see all expenses in this category and this month.";
+            "Type /group_by_Category_and_Month to see all expenses in this category and this month.\n"+
+            "\n"+
+            "Type /group_by_Category to see all expenses in this category and this month.\n";
 }
