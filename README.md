@@ -1,5 +1,5 @@
 # spending_tracker_bot
 
-бот к проекту https://github.com/pochkas/spending_tracker. 
+Telegram bot to the project https://github.com/pochkas/spending_tracker. 
 
-Технологический стек: SpringBoot, Maven, PostgreSQL.
+Stack: SpringBoot, Maven, PostgreSQL.
